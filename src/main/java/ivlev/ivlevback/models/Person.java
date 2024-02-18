@@ -3,7 +3,7 @@ package ivlev.ivlevback.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "person")
 public class Person {
     @Id
     @Column(name = "id")
@@ -25,6 +25,11 @@ public class Person {
     public Person() {
     }
 
+    public Person(String name, String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
 
     public String getRole() {
         return role;
@@ -64,5 +69,16 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }
