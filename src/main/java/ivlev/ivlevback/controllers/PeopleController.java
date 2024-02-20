@@ -62,11 +62,14 @@ public class PeopleController {
 
     }
 
+
     private void createCookie(String token, HttpServletResponse httpServletResponse) {
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setMaxAge(2147483647);
+        cookie.setPath("/");
+        cookie.setDomain("localhost");
         httpServletResponse.addCookie(cookie);
     }
 
@@ -92,11 +95,11 @@ public class PeopleController {
     private Person convertToPerson(PersonDTO personDTO) {
         return modelMapper.map(personDTO, Person.class);
     }
-
-    @GetMapping("/")
-    public String hello() {
-        return "Hello";
-    }
+//    @GetMapping("/")
+//    public String readCookie(@CookieValue(value = "jwt", defaultValue = "Atta") String username) {
+//        System.out.println(username);
+//        return "Hey! My username is " + username;
+//    }
 
     @GetMapping("/personal_account")
     public String personalAccount() {

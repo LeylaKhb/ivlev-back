@@ -5,10 +5,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,15 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@ComponentScan({"ivlev.ivlevback"})
-//@EntityScan("ivlev.ivlevback.models")
-//@EnableJpaRepositories("ivlev.ivlevback.repositories")
 public class SecurityConfig {
     private final PersonDetailsService personDetailsService;
     private final JWTFilter jwtFilter;
@@ -54,7 +46,7 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
 //        ).csrf(csrf -> csrf
-//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ).csrf(csrf -> csrf.disable()
         ).sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -89,8 +81,10 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/registration").allowedOrigins("*");
+                registry.addMapping("/registration").allowedOrigins("http://localhost:3000/registration");
                 registry.addMapping("/login").allowedOrigins("*");
+                registry.addMapping("/api/request").allowedOrigins("*");
+                registry.addMapping("/personal_account").allowedOrigins("*");
             }
         };
     }
