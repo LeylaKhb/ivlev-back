@@ -29,7 +29,6 @@ public class PeopleController {
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
 
-
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
                             ModelMapper modelMapper, AuthenticationManager authenticationManager) {

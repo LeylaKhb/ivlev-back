@@ -10,25 +10,17 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "email")
-    String email;
+    private String email;
 
-    @Column(name = "password")
-    String password;
+    private String password;
 
-    @Column(name = "name")
-    String name;
+    private String name;
 
-    @Column(name = "role")
     private String role;
 
-    public Person() {
-    }
+    private String photo;
 
-    public Person(String name, String email, String password) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
+    public Person() {
     }
 
     public String getRole() {
@@ -69,6 +61,14 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Override

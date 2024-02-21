@@ -24,6 +24,7 @@ public class RegistrationService {
     public void register(Person p) {
         p.setPassword(passwordEncoder.encode(p.getPassword()));
         p.setRole("ROLE_USER");
+        p.setPhoto("http://res.cloudinary.com/dphkmjgiy/image/upload/v1708548020/requwfo8zjwfdftelf6v.png");
         peopleRepository.save(p);
     }
 }
