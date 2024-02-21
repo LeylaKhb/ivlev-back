@@ -1,7 +1,7 @@
 package ivlev.ivlevback.config;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import ivlev.ivlevback.service.JWTUtil;
+import ivlev.ivlevback.utils.JWTUtil;
 import ivlev.ivlevback.service.PersonDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

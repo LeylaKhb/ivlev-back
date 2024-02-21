@@ -4,7 +4,7 @@ import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
-import ivlev.ivlevback.service.JWTUtil;
+import ivlev.ivlevback.utils.JWTUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -40,7 +40,6 @@ public class PeopleController {
         this.authenticationManager = authenticationManager;
     }
 
-//    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @PostMapping("/registration")
     public ResponseBody registration(@RequestBody PersonDTO personDTO,
                                      BindingResult bindingResult,
@@ -95,17 +94,13 @@ public class PeopleController {
     private Person convertToPerson(PersonDTO personDTO) {
         return modelMapper.map(personDTO, Person.class);
     }
-//    @GetMapping("/")
-//    public String readCookie(@CookieValue(value = "jwt", defaultValue = "Atta") String username) {
-//        System.out.println(username);
-//        return "Hey! My username is " + username;
-//    }
+
 
     @GetMapping("/personal_account")
-    public String personalAccount() {
+    public Person personalAccount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        return personDetails.getUsername();
+        return personDetails.getPerson();
     }
 }
