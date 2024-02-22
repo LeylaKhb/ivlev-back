@@ -82,9 +82,10 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/registration").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/login").allowedOrigins("*");
-                registry.addMapping("/api/request").allowedOrigins("*");
-                registry.addMapping("/personal_account").allowedOrigins("*");
+                registry.addMapping("/login").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/request").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
             }
         };
     }

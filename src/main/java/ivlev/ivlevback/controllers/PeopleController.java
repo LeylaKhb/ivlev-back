@@ -5,6 +5,7 @@ import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.utils.JWTUtil;
+import ivlev.ivlevback.utils.PasswordUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -28,15 +29,17 @@ public class PeopleController {
     private final JWTUtil jwtUtil;
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
+    private final PasswordUtil passwordUtil;
 
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
-                            ModelMapper modelMapper, AuthenticationManager authenticationManager) {
+                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordUtil passwordUtil) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
         this.modelMapper = modelMapper;
         this.authenticationManager = authenticationManager;
+        this.passwordUtil = passwordUtil;
     }
 
     @PostMapping("/registration")
@@ -44,7 +47,6 @@ public class PeopleController {
                                      BindingResult bindingResult,
                                      HttpServletResponse httpServletResponse) {
         Person person = convertToPerson(personDTO);
-        System.out.println(person);
         personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors())
@@ -57,7 +59,17 @@ public class PeopleController {
         createCookie(token, httpServletResponse);
 
         return new ResponseBody("jwt", token);
+    }
 
+    @PostMapping("/change_password")
+    public ResponseBody changePassword(@RequestBody String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        if (!(passwordUtil.compare(password, personDetails.getPassword()))) {
+            return new ResponseBody("error", "Неверный пароль");
+        }
+        return new ResponseBody("ok", password);
     }
 
 
