@@ -11,8 +11,8 @@ import ivlev.ivlevback.repositories.PeopleRepository;
 @Service
 public class RegistrationService {
 
-    private PasswordEncoder passwordEncoder;
-    private PeopleRepository peopleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PeopleRepository peopleRepository;
 
     @Autowired
     public RegistrationService(PasswordEncoder passwordEncoder, PeopleRepository peopleRepository) {

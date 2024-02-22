@@ -5,9 +5,12 @@ import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.utils.JWTUtil;
-import ivlev.ivlevback.utils.PasswordUtil;
+import ivlev.ivlevback.utils.PasswordService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,11 +32,11 @@ public class PeopleController {
     private final JWTUtil jwtUtil;
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
-    private final PasswordUtil passwordUtil;
+    private final PasswordService passwordUtil;
 
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
-                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordUtil passwordUtil) {
+                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordUtil) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
@@ -62,14 +65,21 @@ public class PeopleController {
     }
 
     @PostMapping("/change_password")
-    public ResponseBody changePassword(@RequestBody String password) {
+    public ResponseBody changePassword(@RequestBody String jsonString) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        if (!(passwordUtil.compare(password, personDetails.getPassword()))) {
+        Object obj = new JSONParser().parse(jsonString);
+        JSONObject jo = (JSONObject) obj;
+        String oldPassword = (String) jo.get("old");
+        String newPassword = (String) jo.get("new");
+
+
+        if (!(passwordUtil.compare(oldPassword, personDetails.getPassword()))) {
             return new ResponseBody("error", "Неверный пароль");
         }
-        return new ResponseBody("ok", password);
+        passwordUtil.update(personDetails, newPassword);
+        return new ResponseBody("ok", newPassword);
     }
 
 
