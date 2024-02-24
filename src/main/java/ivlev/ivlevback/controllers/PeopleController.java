@@ -4,8 +4,9 @@ import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
+import ivlev.ivlevback.service.PersonService;
 import ivlev.ivlevback.utils.JWTUtil;
-import ivlev.ivlevback.utils.PasswordService;
+import ivlev.ivlevback.service.PasswordService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
@@ -32,17 +33,19 @@ public class PeopleController {
     private final JWTUtil jwtUtil;
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
-    private final PasswordService passwordUtil;
+    private final PasswordService passwordService;
+    private final PersonService personService;
 
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
-                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordUtil) {
+                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordService, PersonService personService) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
         this.modelMapper = modelMapper;
         this.authenticationManager = authenticationManager;
-        this.passwordUtil = passwordUtil;
+        this.passwordService = passwordService;
+        this.personService = personService;
     }
 
     @PostMapping("/registration")
@@ -75,11 +78,28 @@ public class PeopleController {
         String newPassword = (String) jo.get("new");
 
 
-        if (!(passwordUtil.compare(oldPassword, personDetails.getPassword()))) {
+        if (!(passwordService.compare(oldPassword, personDetails.getPassword()))) {
             return new ResponseBody("error", "Неверный пароль");
         }
-        passwordUtil.update(personDetails, newPassword);
+        passwordService.update(personDetails, newPassword);
         return new ResponseBody("ok", newPassword);
+    }
+
+    @PostMapping("/change_person")
+    public ResponseBody changePerson(@RequestBody PersonDTO personDTO, BindingResult bindingResult) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        Person person = convertToPerson(personDTO);
+        if (!(personDetails.getUsername().equals(person.getEmail())))
+            personValidator.validate(person, bindingResult);
+
+        if (bindingResult.hasErrors())
+            return new ResponseBody("error", "Пользователь с такой почтой уже существует");
+
+        personService.update(personDetails, person);
+        String token = jwtUtil.generateToken(person.getEmail());
+        return new ResponseBody("jwt", token);
     }
 
 

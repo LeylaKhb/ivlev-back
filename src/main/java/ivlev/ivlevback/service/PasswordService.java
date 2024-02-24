@@ -1,12 +1,12 @@
-package ivlev.ivlevback.utils;
+package ivlev.ivlevback.service;
 
 import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.repositories.PeopleRepository;
 import ivlev.ivlevback.security.PersonDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class PasswordService {
     private final PasswordEncoder passwordEncoder;
     private final PeopleRepository peopleRepository;

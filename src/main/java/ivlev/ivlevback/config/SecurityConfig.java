@@ -86,6 +86,7 @@ public class SecurityConfig {
                 registry.addMapping("/api/request").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
             }
         };
     }
