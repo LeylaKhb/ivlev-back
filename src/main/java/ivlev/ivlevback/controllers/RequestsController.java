@@ -8,9 +8,11 @@ import ivlev.ivlevback.repositories.PriceRequestsRepository;
 import ivlev.ivlevback.repositories.RequestsRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class RequestsController {
     private final RequestsRepository requestsRepository;
     private final PriceRequestsRepository priceRequestsRepository;
@@ -20,12 +22,12 @@ public class RequestsController {
         this.priceRequestsRepository = priceRequestsRepository;
     }
 
-    @PostMapping("/api/request")
+    @PostMapping("/answer_request")
     public void getRequest(@RequestBody Request request) {
         requestsRepository.save(request);
     }
 
-    @PostMapping("/api/calculator")
+    @PostMapping("/calculator")
     public ResponseBody count(@RequestBody PriceRequestDTO priceRequestDTO) {
         PriceRequest priceRequest = priceRequestsRepository.findByStoreAndSendCity(priceRequestDTO.getStore(),
                 priceRequestDTO.getSendCity());
