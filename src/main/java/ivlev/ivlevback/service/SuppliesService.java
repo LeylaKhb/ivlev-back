@@ -31,7 +31,8 @@ public class SuppliesService {
             SupplyTitleType supplyTitleType = supply.getTitleType();
             String title = supplyTitleType.getTitle();
             List<DestinationWarehouseDTO> warehouses = supplyTitleType.getWarehouses().stream()
-                    .map(warehouse -> new DestinationWarehouseDTO(warehouse.getWarehouse()))
+                    .map(warehouse -> new DestinationWarehouseDTO(warehouse.getWarehouseName(),
+                            warehouse.getStore(), warehouse.getSendCity()))
                     .toList();
             List<DepartureCityDTO> cities = supplyTitleType.getDepartureCities().stream()
                     .map(city -> new DepartureCityDTO(city.getCity()))

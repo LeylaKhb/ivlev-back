@@ -17,7 +17,12 @@ public class DestinationWarehouse {
     @JsonIgnore
     private SupplyTitleType titleType;
 
-    private String warehouse;
+    @Column(name = "warehouse_name")
+    private String warehouseName;
+    private String store;
+
+    @Column(name = "send_city")
+    private String sendCity;
 
     public DestinationWarehouse() {
     }
@@ -38,15 +43,31 @@ public class DestinationWarehouse {
         this.titleType = title;
     }
 
-    public String getWarehouse() {
-        return warehouse;
+    public String getWarehouseName() {
+        return warehouseName;
     }
 
-    public void setWarehouse(String warehouse) {
-        this.warehouse = warehouse;
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
     }
 
-//    @Override
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public String getSendCity() {
+        return sendCity;
+    }
+
+    public void setSendCity(String sendCity) {
+        this.sendCity = sendCity;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "DestinationWarehouse{" +
 //                "id=" + id +
