@@ -13,9 +13,9 @@ public class DestinationWarehouse {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="supply_id", nullable=false)
+    @JoinColumn(name="title_id", nullable=false)
     @JsonIgnore
-    private Supply supply;
+    private SupplyTitleType titleType;
 
     private String warehouse;
 
@@ -30,12 +30,12 @@ public class DestinationWarehouse {
         this.id = id;
     }
 
-    public Supply getSupply() {
-        return supply;
+    public SupplyTitleType getTitleType() {
+        return titleType;
     }
 
-    public void setSupply(Supply supply) {
-        this.supply = supply;
+    public void setTitleType(SupplyTitleType title) {
+        this.titleType = title;
     }
 
     public String getWarehouse() {
@@ -46,12 +46,12 @@ public class DestinationWarehouse {
         this.warehouse = warehouse;
     }
 
-    @Override
-    public String toString() {
-        return "DestinationWarehouse{" +
-                "id=" + id +
-                ", supply=" + supply +
-                ", warehouse='" + warehouse + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "DestinationWarehouse{" +
+//                "id=" + id +
+//                ", supply=" + supply +
+//                ", warehouse='" + warehouse + '\'' +
+//                '}';
+//    }
 }

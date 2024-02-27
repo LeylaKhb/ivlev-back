@@ -1,5 +1,6 @@
 package ivlev.ivlevback.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -18,31 +19,15 @@ public class Supply {
 
     @Column(name = "acceptance_date")
     private Date acceptanceDate;
-    private String title;
 
-    @OneToMany(mappedBy = "supply")
-    private List<DestinationWarehouse> warehouses;
-//
-    @OneToMany(mappedBy = "supply")
-    private List<DepartureCity> departureCities;
+    @ManyToOne
+    @JoinColumn(name="title_id", nullable=false)
+    @JsonIgnore
+    private SupplyTitleType titleType;
+
     public Supply() {
     }
 
-    public List<DepartureCity> getDepartureCities() {
-        return departureCities;
-    }
-
-    public void setDepartureCities(List<DepartureCity> departureCities) {
-        this.departureCities = departureCities;
-    }
-
-    public List<DestinationWarehouse> getWarehouses() {
-        return warehouses;
-    }
-
-    public void setWarehouses(List<DestinationWarehouse> warehouses) {
-        this.warehouses = warehouses;
-    }
 
     public long getId() {
         return id;
@@ -68,24 +53,24 @@ public class Supply {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public String getTitle() {
-        return title;
+    public SupplyTitleType getTitleType() {
+        return titleType;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleType(SupplyTitleType titleType) {
+        this.titleType = titleType;
     }
 
-    @Override
-    public String toString() {
-        return "Supply{" +
-                "id=" + id +
-                ", departureDate=" + departureDate +
-                ", acceptanceDate=" + acceptanceDate +
-                ", title='" + title + '\'' +
-//                ", warehouses=" + warehouses +
-//                ", departureCities=" + departureCities +
-                '}';
-    }
+    //    @Override
+//    public String toString() {
+//        return "Supply{" +
+//                "id=" + id +
+//                ", departureDate=" + departureDate +
+//                ", acceptanceDate=" + acceptanceDate +
+//                ", title='" + title + '\'' +
+////                ", warehouses=" + warehouses +
+////                ", departureCities=" + departureCities +
+//                '}';
+//    }
 }
 

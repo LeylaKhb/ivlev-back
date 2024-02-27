@@ -1,5 +1,6 @@
 package ivlev.ivlevback.controllers;
 
+import ivlev.ivlevback.dto.SupplyDTO;
 import ivlev.ivlevback.models.Supply;
 import ivlev.ivlevback.service.SuppliesService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,7 @@ public class SuppliesController {
     }
 
     @GetMapping("/schedule")
-    public List<Supply> getSupplies() {
-        List<Supply> supplies = suppliesService.getAll();
-        System.out.println(supplies.get(0).getWarehouses());
-        System.out.println();
+    public List<SupplyDTO> getSupplies() {
         return suppliesService.getAll();
     }
 }
