@@ -3,8 +3,8 @@ package ivlev.ivlevback.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "request")
-public class Request {
+@Table(name = "answer_request")
+public class AnswerRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Request {
     private String connect;
 
 
-    public Request() {
+    public AnswerRequest() {
     }
 
     public String getName() {

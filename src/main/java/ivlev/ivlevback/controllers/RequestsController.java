@@ -3,9 +3,8 @@ package ivlev.ivlevback.controllers;
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.PriceRequestDTO;
 import ivlev.ivlevback.models.PriceRequest;
-import ivlev.ivlevback.models.Request;
-import ivlev.ivlevback.repositories.PriceRequestsRepository;
-import ivlev.ivlevback.repositories.RequestsRepository;
+import ivlev.ivlevback.models.AnswerRequest;
+import ivlev.ivlevback.service.RequestsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,26 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class RequestsController {
-    private final RequestsRepository requestsRepository;
-    private final PriceRequestsRepository priceRequestsRepository;
+    private final RequestsService requestsService;
 
-    public RequestsController(RequestsRepository requestsRepository, PriceRequestsRepository priceRequestsRepository) {
-        this.requestsRepository = requestsRepository;
-        this.priceRequestsRepository = priceRequestsRepository;
+    public RequestsController(RequestsService requestsService) {
+        this.requestsService = requestsService;
     }
 
     @PostMapping("/answer_request")
-    public void getRequest(@RequestBody Request request) {
-        requestsRepository.save(request);
+    public void getRequest(@RequestBody AnswerRequest request) {
+        requestsService.save(request);
     }
 
     @PostMapping("/calculator")
     public ResponseBody count(@RequestBody PriceRequestDTO priceRequestDTO) {
-        PriceRequest priceRequest = priceRequestsRepository.findByStoreAndSendCity(priceRequestDTO.getStore(),
+        PriceRequest priceRequest = requestsService.findByStoreAndSendCity(priceRequestDTO.getStore(),
                 priceRequestDTO.getSendCity());
         float volume = priceRequestDTO.getVolume();
-        System.out.println(priceRequest.getSendCity());
-        System.out.println(priceRequestDTO.getVolume());
         int price;
         if (volume < 0.1) {
             price = priceRequest.getMinSum();
