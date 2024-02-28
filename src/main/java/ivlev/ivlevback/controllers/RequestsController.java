@@ -28,16 +28,37 @@ public class RequestsController {
     public ResponseBody count(@RequestBody PriceRequestDTO priceRequestDTO) {
         PriceRequest priceRequest = requestsService.findByStoreAndSendCity(priceRequestDTO.getStore(),
                 priceRequestDTO.getSendCity());
-        float volume = priceRequestDTO.getVolume();
-        int price;
-        if (volume < 0.1) {
-            price = priceRequest.getMinSum();
-        } else {
-            price = Math.round(priceRequest.getSum() * priceRequestDTO.getVolume());
-        }
-        if (priceRequestDTO.getDepartureCity().equals("Самара")) price += 100;
-        else price += 200;
 
-        return new ResponseBody("price", String.valueOf(price));
+        double volume = priceRequestDTO.getVolume();
+        double result = 0;
+        
+        if (priceRequestDTO.getDepartureCity().equals("Самара")) result += 100;
+        else result += 200;
+        if (priceRequestDTO.isWillTaken()) result += 600;
+
+        String price;
+        if (priceRequestDTO.isPallet()) {
+            if (volume < 1.5) {
+                volume = 1.5;
+            }
+        }
+
+        if (priceRequestDTO.getSendCity().equals("Самара")) {
+            result += priceRequestDTO.getAmount() * priceRequest.getMinSum();
+        } else {
+            if (volume < 0.1) {
+                result += priceRequest.getMinSum();
+            } else {
+                result += (priceRequest.getSum() * volume);
+            }
+        }
+
+        if (result % 1 == 0) {
+            price = String.valueOf(result);
+        } else {
+            price = String.format("%.2f", result);
+        }
+
+        return new ResponseBody("price", price);
     }
 }

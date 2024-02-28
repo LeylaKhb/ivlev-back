@@ -4,6 +4,7 @@ import ivlev.ivlevback.service.PersonDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
+//@EnableJpaRepositories("ivlev.ivlevback.repositories")
 public class SecurityConfig {
     private final PersonDetailsService personDetailsService;
     private final JWTFilter jwtFilter;
@@ -89,6 +91,8 @@ public class SecurityConfig {
                 registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
+
             }
         };
     }

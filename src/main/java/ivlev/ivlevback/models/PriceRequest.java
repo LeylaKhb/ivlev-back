@@ -61,5 +61,14 @@ public class PriceRequest {
         this.sum = sum;
     }
 
-
+    @Override
+    public String toString() {
+        return "PriceRequest{" +
+                "id=" + id +
+                ", store='" + store + '\'' +
+                ", sendCity='" + sendCity + '\'' +
+                ", minSum=" + minSum +
+                ", sum=" + sum +
+                '}';
+    }
 }
