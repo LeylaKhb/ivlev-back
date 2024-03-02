@@ -1,8 +1,11 @@
 package ivlev.ivlevback.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,10 +18,9 @@ public class Orders {
     @Column(name = "order_date")
     private Date orderDate;
     @Column(name = "departure_date")
-    private java.util.Date departureDate;
+    private LocalDate departureDate;
     @Column(name = "phone_number")
     private String phoneNumber;
-    private String email;
     @Column(name = "send_city")
     private String sendCity;
     @Column(name = "departure_city")
@@ -33,12 +35,36 @@ public class Orders {
     private boolean willTaken;
     private String comment;
     @Column(name = "number_ozon")
-    private boolean numberOzon;
+    private String numberOzon;
     private boolean changeable;
     @OneToMany(mappedBy = "order")
     private List<Box> boxes;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private Person person;
+
+    @Column(name = "supply_title")
+    private String supplyTitle;
+
     public Orders() {
+    }
+
+    public String getSupplyTitle() {
+        return supplyTitle;
+    }
+
+    public void setSupplyTitle(String supplyTitle) {
+        this.supplyTitle = supplyTitle;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public int getId() {
@@ -65,11 +91,11 @@ public class Orders {
         this.orderDate = orderDate;
     }
 
-    public java.util.Date getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(java.util.Date departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
@@ -79,14 +105,6 @@ public class Orders {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getSendCity() {
@@ -161,11 +179,11 @@ public class Orders {
         this.comment = comment;
     }
 
-    public boolean isNumberOzon() {
+    public String isNumberOzon() {
         return numberOzon;
     }
 
-    public void setNumberOzon(boolean numberOzon) {
+    public void setNumberOzon(String numberOzon) {
         this.numberOzon = numberOzon;
     }
 
@@ -183,5 +201,9 @@ public class Orders {
 
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
+    }
+
+    public String getNumberOzon() {
+        return numberOzon;
     }
 }

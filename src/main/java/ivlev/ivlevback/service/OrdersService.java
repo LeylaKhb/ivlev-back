@@ -21,15 +21,19 @@ public class OrdersService {
     }
 
     public void save(PersonDetails personDetails, Orders order, List<Box> boxList) {
-        order.setEmail(personDetails.getUsername());
         order.setOrderDate(new Date(System.currentTimeMillis()));
-        order.setStatus("Нt оплачен");
+        order.setStatus("Не оплачен");
         order.setChangeable(true);
+        order.setPerson(personDetails.getPerson());
         ordersRepository.save(order);
 
         for (Box box : boxList) {
             box.setOrder(order);
             boxesRepository.save(box);
         }
+    }
+
+    public List<Orders> getAll(PersonDetails personDetails) {
+        return ordersRepository.findByPerson(personDetails.getPerson());
     }
 }

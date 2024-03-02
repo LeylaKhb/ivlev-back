@@ -47,18 +47,19 @@ public class RequestsController {
             result += priceRequestDTO.getAmount() * priceRequest.getMinSum();
         } else {
             if (volume < 0.1) {
+                volume = 1.5;
                 result += priceRequest.getMinSum();
             } else {
                 result += (priceRequest.getSum() * volume);
             }
         }
 
-        if (result % 1 == 0) {
-            price = String.valueOf(result);
-        } else {
+//        if (result % 1 == 0) {
+//            price = String.valueOf(result);
+//        } else {
             price = String.format("%.2f", result);
-        }
+//        }
 
-        return new ResponseBody("price", price);
+        return new ResponseBody("answer", price + "/" + volume);
     }
 }

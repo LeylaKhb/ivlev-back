@@ -42,11 +42,8 @@ public class SecurityConfig {
         ).formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .loginProcessingUrl("/api/login")
-                .defaultSuccessUrl("/personal_account")
-                .failureForwardUrl("/login")
         ).logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
 //        ).csrf(csrf -> csrf
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ).csrf(csrf -> csrf.disable()
@@ -92,6 +89,10 @@ public class SecurityConfig {
                 registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/get_supply").allowedOrigins("*");
+                registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/").allowedOrigins("http://localhost:3000");
 
             }
         };

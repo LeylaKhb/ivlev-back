@@ -1,6 +1,9 @@
 package ivlev.ivlevback.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -19,8 +22,19 @@ public class Person {
     private String role;
 
     private String photo;
+    @OneToMany(mappedBy = "person")
+    @JsonIgnore
+    private List<Orders> ordersList;
 
     public Person() {
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 
     public String getRole() {

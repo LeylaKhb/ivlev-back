@@ -53,4 +53,14 @@ public class SupplyTitleType {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "SupplyTitleType{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", warehouses=" + warehouses +
+                ", departureCities=" + departureCities +
+                '}';
+    }
 }

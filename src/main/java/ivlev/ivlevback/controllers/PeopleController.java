@@ -85,6 +85,12 @@ public class PeopleController {
         return new ResponseBody("ok", newPassword);
     }
 
+    @PostMapping("/logout")
+    public String performLogout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return "ok";
+    }
+
     @PostMapping("/change_person")
     public ResponseBody changePerson(@RequestBody PersonDTO personDTO, BindingResult bindingResult) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
