@@ -40,7 +40,6 @@ public class SuppliesController {
         String title = (String) jo.get("title");
 
         SupplyDTO supply = suppliesService.findByDepartureDateAndSendCity(departureDate, title);
-        System.out.println(supply);
         return supply;
 
     }

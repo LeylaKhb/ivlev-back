@@ -90,6 +90,7 @@ public class SecurityConfig {
                 registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/orders_history").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/api/get_supply").allowedOrigins("*");
                 registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/").allowedOrigins("http://localhost:3000");

@@ -34,6 +34,11 @@ public class OrdersService {
     }
 
     public List<Orders> getAll(PersonDetails personDetails) {
+        return ordersRepository.findByPersonAndStatus(personDetails.getPerson(), "Доставлен");
+    }
+
+    public List<Orders> getAllCurrentOrders(PersonDetails personDetails) {
         return ordersRepository.findByPerson(personDetails.getPerson());
     }
+
 }

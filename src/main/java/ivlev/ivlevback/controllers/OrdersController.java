@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class OrdersController {
@@ -44,7 +43,15 @@ public class OrdersController {
     }
 
     @GetMapping("/current_orders")
-    public List<Orders> getOrders() throws ParseException {
+    public List<Orders> getOrders() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        return ordersService.getAllCurrentOrders(personDetails);
+    }
+
+    @GetMapping("/orders_history")
+    public List<Orders> getAllOrders() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
