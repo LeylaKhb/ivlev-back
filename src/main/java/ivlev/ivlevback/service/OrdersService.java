@@ -1,5 +1,6 @@
 package ivlev.ivlevback.service;
 
+import ivlev.ivlevback.models.AdminRequest;
 import ivlev.ivlevback.models.Box;
 import ivlev.ivlevback.models.Orders;
 import ivlev.ivlevback.repositories.BoxesRepository;
@@ -38,7 +39,12 @@ public class OrdersService {
     }
 
     public List<Orders> getAllCurrentOrders(PersonDetails personDetails) {
-        return ordersRepository.findByPerson(personDetails.getPerson());
+        return ordersRepository.findByPersonAndStatusIsNot(personDetails.getPerson(), "Доставлен");
     }
 
+    public List<Orders> findForAdmin(AdminRequest adminRequest) {
+        System.out.println(adminRequest);
+        return ordersRepository.findByDepartureCityAndStoreAndSendCityAndPhoneNumberAndStatus(adminRequest.getDepartureCity(),
+                adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus());
+    }
 }
