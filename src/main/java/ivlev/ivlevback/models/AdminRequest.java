@@ -12,8 +12,17 @@ public class AdminRequest {
     private LocalDate startOrderDate;
     private LocalDate endOrderDate;
     private String status;
+    private String sortBy;
 
     public AdminRequest() {
+    }
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
     }
 
     public String getDepartureCity() {
@@ -86,20 +95,5 @@ public class AdminRequest {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "AdminRequest{" +
-                "departureCity='" + departureCity + '\'' +
-                ", store='" + store + '\'' +
-                ", sendCity='" + sendCity + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", startDepartureDate=" + startDepartureDate +
-                ", endDepartureDate=" + endDepartureDate +
-                ", startOrderDate=" + startOrderDate +
-                ", endOrderDate=" + endOrderDate +
-                ", status='" + status + '\'' +
-                '}';
     }
 }

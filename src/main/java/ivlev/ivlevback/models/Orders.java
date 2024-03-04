@@ -3,7 +3,6 @@ package ivlev.ivlevback.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +15,7 @@ public class Orders {
     private int id;
     private String entity;
     @Column(name = "order_date")
-    private Date orderDate;
+    private LocalDate orderDate;
     @Column(name = "departure_date")
     private LocalDate departureDate;
     @Column(name = "phone_number")
@@ -83,11 +82,11 @@ public class Orders {
         this.entity = entity;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 

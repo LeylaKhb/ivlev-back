@@ -62,16 +62,14 @@ public class Supply {
     }
 
 
-    //    @Override
-//    public String toString() {
-//        return "Supply{" +
-//                "id=" + id +
-//                ", departureDate=" + departureDate +
-//                ", acceptanceDate=" + acceptanceDate +
-//                ", title='" + title + '\'' +
-////                ", warehouses=" + warehouses +
-////                ", departureCities=" + departureCities +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Supply{" +
+                "id=" + id +
+                ", departureDate=" + departureDate +
+                ", acceptanceDate=" + acceptanceDate +
+                ", titleType=" + titleType +
+                '}';
+    }
 }
 

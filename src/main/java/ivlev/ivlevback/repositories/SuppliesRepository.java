@@ -10,4 +10,6 @@ import java.time.LocalDate;
 @Repository
 public interface SuppliesRepository extends JpaRepository<Supply, Long> {
     Supply findByDepartureDateAndTitleType(LocalDate departureDate, SupplyTitleType supplyTitleType);
+
+    Supply findByTitleType(SupplyTitleType supplyTitleType);
 }

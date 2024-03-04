@@ -6,8 +6,13 @@ public class PriceRequestDTO {
     private String sendCity;
     private float volume;
     private boolean willTaken;
-    private boolean isPallet;
+    private boolean pallet;
     private int amount;
+
+    public PriceRequestDTO() {
+    }
+
+
 
     public String getDepartureCity() {
         return departureCity;
@@ -22,11 +27,11 @@ public class PriceRequestDTO {
     }
 
     public boolean isPallet() {
-        return isPallet;
+        return pallet;
     }
 
     public void setPallet(boolean pallet) {
-        isPallet = pallet;
+        this.pallet = pallet;
     }
 
     public int getAmount() {
@@ -73,7 +78,7 @@ public class PriceRequestDTO {
                 ", sendCity='" + sendCity + '\'' +
                 ", volume=" + volume +
                 ", willTaken=" + willTaken +
-                ", isPallet=" + isPallet +
+                ", isPallet=" + pallet +
                 ", amount=" + amount +
                 '}';
     }

@@ -48,7 +48,7 @@ public class RequestsController {
             else result += priceRequestDTO.getAmount() * priceRequest.getMinSum();
         } else {
             if (volume < 0.1) {
-                volume = 1.5;
+                volume = 0.1;
                 result += priceRequest.getMinSum();
             } else {
                 result += (priceRequest.getSum() * volume);
@@ -60,6 +60,7 @@ public class RequestsController {
 //        } else {
             price = String.format("%.2f", result);
 //        }
+        System.out.println("answer " + price + "/" + volume);
 
         return new ResponseBody("answer", price + "/" + volume);
     }

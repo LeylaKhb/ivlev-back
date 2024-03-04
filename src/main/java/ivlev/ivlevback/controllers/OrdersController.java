@@ -1,12 +1,14 @@
 package ivlev.ivlevback.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.models.Box;
 import ivlev.ivlevback.models.InboundData;
 import ivlev.ivlevback.models.Orders;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.service.OrdersService;
+import ivlev.ivlevback.utils.LocalDateTypeAdapter;
 import org.json.simple.parser.ParseException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,12 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 public class OrdersController {
     private final OrdersService ordersService;
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+            .create();
 
 
     public OrdersController(OrdersService ordersService) {
