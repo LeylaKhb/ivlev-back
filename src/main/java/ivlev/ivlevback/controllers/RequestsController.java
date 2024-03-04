@@ -60,7 +60,6 @@ public class RequestsController {
 //        } else {
             price = String.format("%.2f", result);
 //        }
-        System.out.println("answer " + price + "/" + volume);
 
         return new ResponseBody("answer", price + "/" + volume);
     }

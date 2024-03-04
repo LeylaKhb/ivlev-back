@@ -65,10 +65,12 @@ public class OrdersService {
 
     public List<Orders> findForAdmin(AdminRequest adminRequest) {
         if (adminRequest.getSortBy().equals(""))
-            return ordersRepository.findByDepartureCityAndStoreAndSendCityAndPhoneNumberAndStatus(adminRequest.getDepartureCity(),
-                adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus());
+            return ordersRepository.findForAdmin(adminRequest.getDepartureCity(),
+                adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus(),
+                    adminRequest.getStartDepartureDate(), adminRequest.getEndDepartureDate(),
+                    adminRequest.getStartOrderDate(), adminRequest.getEndOrderDate());
         else
-            return ordersRepository.findByDepartureCityAndStoreAndSendCityAndPhoneNumberAndStatus(adminRequest.getDepartureCity(),
+            return ordersRepository.findForAdminAndSort(adminRequest.getDepartureCity(),
                     adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus(),
                     Sort.by(adminRequest.getSortBy()));
     }
