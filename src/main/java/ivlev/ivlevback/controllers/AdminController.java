@@ -1,5 +1,6 @@
 package ivlev.ivlevback.controllers;
 
+import ivlev.ivlevback.dto.ChangeOrderAdmin;
 import ivlev.ivlevback.models.AdminRequest;
 import ivlev.ivlevback.models.Orders;
 import ivlev.ivlevback.service.OrdersService;
@@ -22,5 +23,10 @@ public class AdminController {
     @PostMapping("/admin")
     public List<Orders> getAdminOrders(@RequestBody AdminRequest adminRequest) {
         return ordersService.findForAdmin(adminRequest);
+    }
+
+    @PostMapping("/admin_change")
+    public void changeAdminOrders(@RequestBody ChangeOrderAdmin adminRequest) {
+        ordersService.changeAdmin(adminRequest);
     }
 }

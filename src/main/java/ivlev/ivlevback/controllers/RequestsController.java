@@ -44,8 +44,9 @@ public class RequestsController {
         }
 
         if (priceRequestDTO.getSendCity().equals("Преображенка") || priceRequestDTO.getSendCity().equals("Чапаевск")) {
-            if (priceRequestDTO.isPallet()) result += 1600;
+            if (priceRequestDTO.isPallet()) result += priceRequest.getSum();
             else result += priceRequestDTO.getAmount() * priceRequest.getMinSum();
+            result -= 100;
         } else {
             if (volume < 0.1) {
                 volume = 0.1;

@@ -1,5 +1,6 @@
 package ivlev.ivlevback.service;
 
+import ivlev.ivlevback.dto.ChangeOrderAdmin;
 import ivlev.ivlevback.models.AdminRequest;
 import ivlev.ivlevback.models.Box;
 import ivlev.ivlevback.models.Orders;
@@ -64,15 +65,30 @@ public class OrdersService {
     }
 
     public List<Orders> findForAdmin(AdminRequest adminRequest) {
-        if (adminRequest.getSortBy().equals(""))
+        if (adminRequest.getSortBy().equals("")) {
             return ordersRepository.findForAdmin(adminRequest.getDepartureCity(),
-                adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus(),
+                    adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(),
+                    adminRequest.getEntity(), adminRequest.getStatus(),
                     adminRequest.getStartDepartureDate(), adminRequest.getEndDepartureDate(),
                     adminRequest.getStartOrderDate(), adminRequest.getEndOrderDate());
-        else
+        } else
             return ordersRepository.findForAdminAndSort(adminRequest.getDepartureCity(),
                     adminRequest.getStore(), adminRequest.getSendCity(), adminRequest.getPhoneNumber(), adminRequest.getStatus(),
+                    adminRequest.getStartDepartureDate(), adminRequest.getEndDepartureDate(),
+                    adminRequest.getStartOrderDate(), adminRequest.getEndOrderDate(),
                     Sort.by(adminRequest.getSortBy()));
     }
 
+    public void changeAdmin(ChangeOrderAdmin adminRequest) {
+        List<Orders> orders = adminRequest.getOrders();
+        System.out.println(adminRequest.getStatus());
+        for (Orders order: orders) {
+            Orders foundOrder = ordersRepository.findById(order.getId()).get();
+            if (!(adminRequest.getStatus().equals("")))
+                foundOrder.setStatus(adminRequest.getStatus());
+            if (!(adminRequest.getChangeable().equals("")))
+                foundOrder.setChangeable(adminRequest.getChangeable().equals("yes"));
+            ordersRepository.save(foundOrder);
+        }
+    }
 }

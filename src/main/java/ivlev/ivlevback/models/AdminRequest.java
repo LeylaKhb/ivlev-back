@@ -7,6 +7,7 @@ public class AdminRequest {
     private String store;
     private String sendCity;
     private String phoneNumber;
+    private String entity;
     private LocalDate startDepartureDate;
     private LocalDate endDepartureDate;
     private LocalDate startOrderDate;
@@ -15,6 +16,14 @@ public class AdminRequest {
     private String sortBy;
 
     public AdminRequest() {
+    }
+
+    public String getEntity() {
+        return entity;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
     }
 
     public String getSortBy() {

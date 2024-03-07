@@ -4,6 +4,7 @@ import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
+import ivlev.ivlevback.service.EmailService;
 import ivlev.ivlevback.service.PersonService;
 import ivlev.ivlevback.utils.JWTUtil;
 import ivlev.ivlevback.service.PasswordService;
@@ -35,10 +36,12 @@ public class PeopleController {
     private final AuthenticationManager authenticationManager;
     private final PasswordService passwordService;
     private final PersonService personService;
+    private final EmailService emailService;
 
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
-                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordService, PersonService personService) {
+                            ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordService,
+                            PersonService personService, EmailService emailService) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
@@ -46,6 +49,7 @@ public class PeopleController {
         this.authenticationManager = authenticationManager;
         this.passwordService = passwordService;
         this.personService = personService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/registration")
@@ -149,5 +153,21 @@ public class PeopleController {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
         return personDetails.getPerson();
+    }
+
+    @PostMapping("/api/recover_password")
+    public ResponseBody recoverPassword(@RequestBody PersonDTO personDTO,
+                                     BindingResult bindingResult) {
+        String email = personDTO.getEmail();
+        System.out.println(email);
+
+        personValidator.validate(convertToPerson(personDTO), bindingResult);
+
+        if (!(bindingResult.hasErrors()))
+            return new ResponseBody("error", "Пользователя с такой почтой не существует");
+
+//        emailService.sendEmail(email, "Ваш пароль");
+
+        return new ResponseBody("ok", "");
     }
 }

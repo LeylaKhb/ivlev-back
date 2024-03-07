@@ -21,6 +21,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "(o.send_city = :sendCity or :sendCity = '') and " +
             "(o.store = :store or :store = '') and " +
             "(o.phone_number = :phoneNumber or :phoneNumber = '') and " +
+            "(o.entity like %:entity% or :entity = '') and " +
             "(o.status = :status or :status = '') and " +
             "(o.departure_date >= :startDepartureDate or cast(:startDepartureDate as date) is null) and " +
             "(o.departure_date <= :endDepartureDate or cast(:endDepartureDate as date) is null) and " +
@@ -29,6 +30,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             nativeQuery = true)
     List<Orders> findForAdmin(@Param("departureCity") String departureCity, @Param("store") String store,
                               @Param("sendCity") String sendCity, @Param("phoneNumber") String phoneNumber,
+                              @Param("entity") String entity,
                               @Param("status") String status, @Param("startDepartureDate") LocalDate startDepartureDate,
                               @Param("endDepartureDate") LocalDate endDepartureDate,
                               @Param("startOrderDate")LocalDate startOrderDate,
@@ -39,13 +41,19 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
             "(o.send_city = :sendCity or :sendCity = '') and " +
             "(o.store = :store or :store = '') and " +
             "(o.phone_number = :phoneNumber or :phoneNumber = '') and " +
-            "(o.status = :status or :status = '') order by ?#{#sort}",
+            "(o.status = :status or :status = '') and " +
+            "(o.departure_date >= :startDepartureDate or cast(:startDepartureDate as date) is null) and " +
+            "(o.departure_date <= :endDepartureDate or cast(:endDepartureDate as date) is null) and " +
+            "(o.order_date >= :startOrderDate or cast(:startOrderDate as date) is null) and " +
+            "(o.order_date <= :endOrderDate or cast(:endOrderDate as date) is null) " +
+            "order by ?#{#sort}",
             nativeQuery = true)
-    List<Orders> findForAdminAndSort(@Param("departureCity") String departureCity,
-                                                                               @Param("store") String store,
-                                                                               @Param("sendCity") String sendCity,
-                                                                               @Param("phoneNumber") String phoneNumber,
-                                                                               @Param("status") String status,
-                                                                               Sort sort);
+    List<Orders> findForAdminAndSort(@Param("departureCity") String departureCity, @Param("store") String store,
+                              @Param("sendCity") String sendCity, @Param("phoneNumber") String phoneNumber,
+                              @Param("status") String status, @Param("startDepartureDate") LocalDate startDepartureDate,
+                              @Param("endDepartureDate") LocalDate endDepartureDate,
+                              @Param("startOrderDate")LocalDate startOrderDate,
+                              @Param("endOrderDate") LocalDate endOrderDate,
+                                     Sort sort);
 
 }

@@ -5,6 +5,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -75,6 +77,11 @@ public class SecurityConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+        return new JavaMailSenderImpl();
+    }
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -86,12 +93,14 @@ public class SecurityConfig {
                 registry.addMapping("/api/calculator").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/api/schedule").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/api/admin").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/admin_change").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/orders_history").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/recover_password").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/api/get_supply").allowedOrigins("*");
                 registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/").allowedOrigins("http://localhost:3000");
