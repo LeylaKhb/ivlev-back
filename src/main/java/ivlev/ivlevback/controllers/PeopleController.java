@@ -91,6 +91,7 @@ public class PeopleController {
 
     @PostMapping("/logout")
     public String performLogout() {
+        System.out.println("here");
         SecurityContextHolder.getContext().setAuthentication(null);
         return "ok";
     }
@@ -123,7 +124,7 @@ public class PeopleController {
         httpServletResponse.addCookie(cookie);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseBody login(@RequestBody AuthenticationDTO authenticationDTO,
                               HttpServletResponse httpServletResponse) {
         UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(
@@ -166,7 +167,7 @@ public class PeopleController {
         if (!(bindingResult.hasErrors()))
             return new ResponseBody("error", "Пользователя с такой почтой не существует");
 
-//        emailService.sendEmail(email, "Ваш пароль");
+        emailService.sendEmail(email, "Ваш пароль");
 
         return new ResponseBody("ok", "");
     }
