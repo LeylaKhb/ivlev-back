@@ -81,7 +81,6 @@ public class OrdersService {
 
     public void changeAdmin(ChangeOrderAdmin adminRequest) {
         List<Orders> orders = adminRequest.getOrders();
-        System.out.println(adminRequest.getStatus());
         for (Orders order: orders) {
             Orders foundOrder = ordersRepository.findById(order.getId()).get();
             if (!(adminRequest.getStatus().equals("")))

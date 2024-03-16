@@ -1,10 +1,11 @@
 package ivlev.ivlevback.controllers;
 
+import freemarker.template.TemplateException;
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
 import ivlev.ivlevback.security.PersonDetails;
-import ivlev.ivlevback.service.EmailService;
+import ivlev.ivlevback.service.EmailServices;
 import ivlev.ivlevback.service.PersonService;
 import ivlev.ivlevback.utils.JWTUtil;
 import ivlev.ivlevback.service.PasswordService;
@@ -27,6 +28,9 @@ import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.service.RegistrationService;
 import ivlev.ivlevback.validator.PersonValidator;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 @RestController
 public class PeopleController {
     private final RegistrationService registrationService;
@@ -36,12 +40,12 @@ public class PeopleController {
     private final AuthenticationManager authenticationManager;
     private final PasswordService passwordService;
     private final PersonService personService;
-    private final EmailService emailService;
+    private final EmailServices emailService;
 
     @Autowired
     public PeopleController(RegistrationService registrationService, PersonValidator personValidator, JWTUtil jwtUtil,
                             ModelMapper modelMapper, AuthenticationManager authenticationManager, PasswordService passwordService,
-                            PersonService personService, EmailService emailService) {
+                            PersonService personService, EmailServices emailService) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
@@ -89,9 +93,14 @@ public class PeopleController {
         return new ResponseBody("ok", newPassword);
     }
 
+    @PostMapping("/new_password")
+    public ResponseBody setNewPassword(@RequestBody AuthenticationDTO authenticationDTO) throws ParseException {
+        passwordService.updatePassword(authenticationDTO);
+        return new ResponseBody("ok", "");
+    }
+
     @PostMapping("/logout")
     public String performLogout() {
-        System.out.println("here");
         SecurityContextHolder.getContext().setAuthentication(null);
         return "ok";
     }
@@ -124,7 +133,7 @@ public class PeopleController {
         httpServletResponse.addCookie(cookie);
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseBody login(@RequestBody AuthenticationDTO authenticationDTO,
                               HttpServletResponse httpServletResponse) {
         UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(
@@ -156,19 +165,18 @@ public class PeopleController {
         return personDetails.getPerson();
     }
 
-    @PostMapping("/api/recover_password")
+    @PostMapping("/recover_password")
     public ResponseBody recoverPassword(@RequestBody PersonDTO personDTO,
-                                     BindingResult bindingResult) {
+                                     BindingResult bindingResult) throws TemplateException, IOException {
         String email = personDTO.getEmail();
-        System.out.println(email);
 
         personValidator.validate(convertToPerson(personDTO), bindingResult);
 
         if (!(bindingResult.hasErrors()))
             return new ResponseBody("error", "Пользователя с такой почтой не существует");
 
-        emailService.sendEmail(email, "Ваш пароль");
+        String temporalPassword = emailService.sendEmail(email);
 
-        return new ResponseBody("ok", "");
+        return new ResponseBody("password", temporalPassword);
     }
 }

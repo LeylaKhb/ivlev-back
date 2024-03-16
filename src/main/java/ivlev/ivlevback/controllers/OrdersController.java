@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class OrdersController {
     private final OrdersService ordersService;
     private final Gson gson = new GsonBuilder()

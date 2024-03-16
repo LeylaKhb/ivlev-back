@@ -1,5 +1,6 @@
 package ivlev.ivlevback.service;
 
+import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.repositories.PeopleRepository;
 import ivlev.ivlevback.security.PersonDetails;
@@ -24,6 +25,12 @@ public class PasswordService {
     public void update(PersonDetails personDetails, String password) {
         Person person = personDetails.getPerson();
         person.setPassword(passwordEncoder.encode(password));
+        peopleRepository.save(person);
+    }
+
+    public void updatePassword(AuthenticationDTO authenticationDTO) {
+        Person person = peopleRepository.findByEmail(authenticationDTO.getEmail()).get();
+        person.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
         peopleRepository.save(person);
     }
 }
