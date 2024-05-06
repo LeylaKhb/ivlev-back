@@ -25,7 +25,6 @@ public class EmailServices {
     @Value("${email.password}")
     private String password;
     private final String symbols = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
-
     private final FreeMarkerConfigurer freeMarkerConfigurer;
 
     public EmailServices(FreeMarkerConfigurer freeMarkerConfigurer) {

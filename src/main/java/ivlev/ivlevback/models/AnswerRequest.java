@@ -90,4 +90,14 @@ public class AnswerRequest {
     public void setConnect(String connect) {
         this.connect = connect;
     }
+
+    @Override
+    public String toString() {
+        if (store == null) {
+            return "Имя: " + name + ", номер телефона: " + phoneNumber;
+        } else {
+            return "Имя: " + name + ", номер телефона: " + phoneNumber + ", склад: " + store + ", услуга: " + service +
+                    ", отгрузка впервые: " + firstTime + ", товар: " + item + ", способ связи: " + connect;
+        }
+    }
 }

@@ -24,6 +24,8 @@ public class Supply {
     @JoinColumn(name="title_id", nullable=false)
     @JsonIgnore
     private SupplyTitleType titleType;
+    private boolean visible;
+
 
     public Supply() {
     }
@@ -61,6 +63,13 @@ public class Supply {
         this.titleType = titleType;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     @Override
     public String toString() {

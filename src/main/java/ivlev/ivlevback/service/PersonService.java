@@ -16,7 +16,7 @@ public class PersonService {
     public void update(PersonDetails personDetails, Person personNew) {
         Person person = personDetails.getPerson();
         person.setName(personNew.getName());
-        person.setEmail(personNew.getEmail());
+        person.setEmail(personNew.getEmail().toLowerCase());
         peopleRepository.save(person);
     }
 }

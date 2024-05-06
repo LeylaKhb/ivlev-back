@@ -9,7 +9,7 @@ scp -i ~/.ssh/id_rsa \
     root@178.21.8.74:/root
 
 echo 'Restart server...'
-
+#
 ssh -i ~/.ssh/id_rsa root@178.21.8.74 << EOF
 
 pgrep java | xargs kill -9

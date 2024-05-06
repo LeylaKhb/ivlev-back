@@ -90,4 +90,11 @@ public class OrdersService {
             ordersRepository.save(foundOrder);
         }
     }
+
+    public void delete(Orders order) {
+        ordersRepository.deleteById(order.getId());
+        for (Box box : order.getBoxes()) {
+            boxesRepository.deleteById(box.getId());
+        }
+    }
 }

@@ -24,11 +24,13 @@ public class SuppliesService {
     }
 
     public List<SupplyDTO> getAll() {
-        List<Supply> supplyList = suppliesRepository.findAll();
+        List<Supply> supplyList = suppliesRepository.findAllAndOrder();
         List<SupplyDTO> answerList = new ArrayList<>();
         for (Supply supply : supplyList) {
-            SupplyTitleType supplyTitleType = supply.getTitleType();
-            answerList.add(getSupplyDTO(supplyTitleType, supply));
+            if (supply.isVisible()) {
+                SupplyTitleType supplyTitleType = supply.getTitleType();
+                answerList.add(getSupplyDTO(supplyTitleType, supply));
+            }
         }
         return answerList;
     }
@@ -49,7 +51,7 @@ public class SuppliesService {
     public SupplyDTO findByDepartureDateAndSendCity(LocalDate departureDate, String title) {
         SupplyTitleType supplyTitleType = supplyTitleTypesRepository.findByTitle(title);
         Supply supply;
-        if (title.equals("Чапаевск(OZON)/Преображенка (OZON,ЯМ,WB)")) {
+        if (title.equals("Чапаевск(OZON)/Преображенка (OZON,ЯМ,WB)") || title.equals("Новосемейкино")) {
             supply = suppliesRepository.findByTitleType(supplyTitleType);
         } else {
             supply = suppliesRepository.findByDepartureDateAndTitleType(departureDate, supplyTitleType);

@@ -42,9 +42,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/login", "/registration").permitAll()
                 .anyRequest().permitAll()
-        ).logout(logout -> logout
-                        .logoutUrl("/logout")
+//        ).logout(logout -> logout
+//                        .logoutUrl("/logout")
         ).csrf(csrf -> csrf.disable()
+        ).cors(cors -> cors.disable()
         ).sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -83,43 +84,43 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/registration").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/login").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/answer_request").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/calculator").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/schedule").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/admin").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/admin_change").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/personal_account").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/change_password").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/change_person").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/new_order").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/current_orders").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/orders_history").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/recover_password").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/api/get_supply").allowedOrigins("*");
-                registry.addMapping("/logout").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/").allowedOrigins("http://95.163.229.71");
-                registry.addMapping("/new_password").allowedOrigins("http://95.163.229.71");
+                registry.addMapping("/**").allowedOrigins("*");
+//                registry.addMapping("/login").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/answer_request").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/calculator").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/schedule").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/admin").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/admin_change").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/personal_account").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/change_password").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/change_person").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/new_order").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/current_orders").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/orders_history").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/recover_password").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/api/get_supply").allowedOrigins("*");
+//                registry.addMapping("/logout").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/").allowedOrigins("http://95.163.229.71");
+//                registry.addMapping("/new_password").allowedOrigins("http://95.163.229.71");
 
-                registry.addMapping("/registration").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/login").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/answer_request").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/calculator").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/schedule").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/admin").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/admin_change").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/orders_history").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/recover_password").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/get_supply").allowedOrigins("*");
-                registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/new_password").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/registration").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/login").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/answer_request").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/calculator").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/schedule").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/admin").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/admin_change").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/orders_history").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/recover_password").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/get_supply").allowedOrigins("*");
+//                registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/new_password").allowedOrigins("http://localhost:3000");
 
             }
         };
