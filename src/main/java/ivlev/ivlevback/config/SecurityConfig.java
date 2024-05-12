@@ -18,9 +18,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import java.util.Arrays;
 
 
 @Configuration
@@ -45,7 +50,7 @@ public class SecurityConfig {
 //        ).logout(logout -> logout
 //                        .logoutUrl("/logout")
         ).csrf(csrf -> csrf.disable()
-        ).cors(cors -> cors.disable()
+//        ).cors(cors -> cors.disable()
         ).sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -79,12 +84,13 @@ public class SecurityConfig {
         freeMarkerConfigurer.setConfiguration(configuration);
         return freeMarkerConfigurer;
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("https://ivlev-ff.ru");
 //                registry.addMapping("/login").allowedOrigins("http://95.163.229.71");
 //                registry.addMapping("/api/answer_request").allowedOrigins("http://95.163.229.71");
 //                registry.addMapping("/api/calculator").allowedOrigins("http://95.163.229.71");
@@ -124,5 +130,6 @@ public class SecurityConfig {
 
             }
         };
+        
     }
 }

@@ -1,6 +1,7 @@
 package ivlev.ivlevback.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ivlev.ivlevback.chat.actor_participation.models.ActorParticipation;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,12 +20,17 @@ public class Person {
 
     private String name;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private String photo;
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     private List<Orders> ordersList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<ActorParticipation> actorParticipations;
 
     public Person() {
     }
@@ -37,11 +43,11 @@ public class Person {
         this.ordersList = ordersList;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -83,6 +89,14 @@ public class Person {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public List<ActorParticipation> getActorParticipations() {
+        return actorParticipations;
+    }
+
+    public void setActorParticipations(List<ActorParticipation> actorParticipations) {
+        this.actorParticipations = actorParticipations;
     }
 
     @Override

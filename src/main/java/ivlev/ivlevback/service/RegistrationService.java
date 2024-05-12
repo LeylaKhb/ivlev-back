@@ -1,5 +1,7 @@
 package ivlev.ivlevback.service;
 
+import ivlev.ivlevback.chat.dialog.services.DialogService;
+import ivlev.ivlevback.models.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,12 +17,14 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final PeopleRepository peopleRepository;
     private final PersonDetailsService personDetailsService;
+    private final DialogService dialogService;
 
     @Autowired
-    public RegistrationService(PasswordEncoder passwordEncoder, PeopleRepository peopleRepository, PersonDetailsService personDetailsService) {
+    public RegistrationService(PasswordEncoder passwordEncoder, PeopleRepository peopleRepository, PersonDetailsService personDetailsService, DialogService dialogService) {
         this.passwordEncoder = passwordEncoder;
         this.peopleRepository = peopleRepository;
         this.personDetailsService = personDetailsService;
+        this.dialogService = dialogService;
     }
 
     @Transactional
@@ -30,8 +34,9 @@ public class RegistrationService {
         } catch (UsernameNotFoundException ex) {
         }
         p.setPassword(passwordEncoder.encode(p.getPassword()));
-        p.setRole("ROLE_USER");
+        p.setRole(Role.ROLE_USER);
         p.setPhoto("http://res.cloudinary.com/dphkmjgiy/image/upload/v1708548020/requwfo8zjwfdftelf6v.png");
-        peopleRepository.save(p);
+        Person person = peopleRepository.save(p);
+        dialogService.createDialog(person);
     }
 }
