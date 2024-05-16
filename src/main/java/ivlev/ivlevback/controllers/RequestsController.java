@@ -2,10 +2,14 @@ package ivlev.ivlevback.controllers;
 
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.PriceRequestDTO;
+import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.models.PriceRequest;
 import ivlev.ivlevback.models.AnswerRequest;
+import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.service.RequestsService;
 import ivlev.ivlevback.utils.TelegramUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +30,9 @@ public class RequestsController {
 
     @PostMapping("/answer_request")
     public void getRequest(@RequestBody AnswerRequest request) throws IOException {
-        telegramUtil.sendMessage(request.toString());
-//        requestsService.save(request);
+        telegramUtil.sendMessage(request.toString(), "6109584204:AAHt4UYB0mkAM0lZLAG23JEYbXGGclYX7K0", 401159350);
+        telegramUtil.sendMessage(request.toString(), "6109584204:AAHt4UYB0mkAM0lZLAG23JEYbXGGclYX7K0", 289373666);
+        telegramUtil.sendMessage(request.toString(), "6109584204:AAHt4UYB0mkAM0lZLAG23JEYbXGGclYX7K0", 751041015);
     }
 
     @PostMapping("/calculator")
@@ -73,6 +78,12 @@ public class RequestsController {
             } else {
                 result += (priceRequest.getSum() * volume);
             }
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof PersonDetails personDetails) {
+            Person person = personDetails.getPerson();
+            result -= result * ((double) person.getDiscount() / 100);
         }
 
 //        if (result % 1 == 0) {

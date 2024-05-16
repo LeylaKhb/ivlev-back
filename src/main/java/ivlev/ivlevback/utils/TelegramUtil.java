@@ -13,13 +13,11 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class TelegramUtil {
     private static HttpURLConnection con;
-    private static String tgToken = "6109584204:AAHt4UYB0mkAM0lZLAG23JEYbXGGclYX7K0";
-    private static int  chatId = 401159350;
-    private static String urlToken = "https://api.telegram.org/bot"+tgToken+"/sendMessage";
 
-    public void sendMessage(String txt) throws IOException {
+    public void sendMessage(String txt, String tgToken, int chatId) throws IOException {
 
         String urlParameters = "chat_id="+chatId+"&text="+txt;
+        String urlToken = "https://api.telegram.org/bot"+tgToken+"/sendMessage";
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
         try {

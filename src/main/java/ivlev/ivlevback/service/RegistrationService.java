@@ -35,6 +35,7 @@ public class RegistrationService {
         }
         p.setPassword(passwordEncoder.encode(p.getPassword()));
         p.setRole(Role.ROLE_USER);
+        p.setDiscount(0);
         p.setPhoto("http://res.cloudinary.com/dphkmjgiy/image/upload/v1708548020/requwfo8zjwfdftelf6v.png");
         Person person = peopleRepository.save(p);
         dialogService.createDialog(person);

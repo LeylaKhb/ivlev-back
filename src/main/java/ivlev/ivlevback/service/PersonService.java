@@ -7,6 +7,7 @@ import ivlev.ivlevback.security.PersonDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -25,5 +26,20 @@ public class PersonService {
 
     public Person getAdmin() {
         return peopleRepository.findByRole(Role.ROLE_ADMIN);
+    }
+
+    public List<Person> findByEmail(String email) {
+        if (email == null)
+            email = "";
+        return peopleRepository.findForAdmin(email);
+    }
+
+    public void changeDiscount(Person person) {
+        Optional<Person> optionalPerson = peopleRepository.findByEmail(person.getEmail());
+        if (optionalPerson.isPresent()) {
+            Person personFromDb = optionalPerson.get();
+            personFromDb.setDiscount(person.getDiscount());
+            peopleRepository.save(personFromDb);
+        }
     }
 }

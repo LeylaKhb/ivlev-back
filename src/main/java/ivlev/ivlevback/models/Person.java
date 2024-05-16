@@ -32,7 +32,17 @@ public class Person {
     @JsonIgnore
     private List<ActorParticipation> actorParticipations;
 
+    private Integer discount;
+
     public Person() {
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
     }
 
     public List<Orders> getOrdersList() {
