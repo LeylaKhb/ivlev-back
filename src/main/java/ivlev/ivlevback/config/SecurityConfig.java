@@ -109,24 +109,24 @@ public class SecurityConfig {
 //                registry.addMapping("/").allowedOrigins("http://95.163.229.71");
 //                registry.addMapping("/new_password").allowedOrigins("http://95.163.229.71");
 
-//                registry.addMapping("/registration").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/login").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/api/answer_request").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/api/calculator").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/api/schedule").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/api/admin").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/api/admin_change").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/personal_account").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/change_password").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/change_person").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/new_order").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/current_orders").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/orders_history").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/recover_password").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/registration").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/login").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/api/answer_request").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/api/calculator").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/api/schedule").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/api/admin").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/api/admin_change").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/personal_account").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/change_password").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/change_person").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/new_order").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/current_orders").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/orders_history").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/recover_password").allowedOrigins("https://ivlev-ff.ru");
 //                registry.addMapping("/api/get_supply").allowedOrigins("*");
-//                registry.addMapping("/logout").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/").allowedOrigins("http://localhost:3000");
-//                registry.addMapping("/new_password").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/logout").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/").allowedOrigins("https://ivlev-ff.ru");
+//                registry.addMapping("/new_password").allowedOrigins("https://ivlev-ff.ru");
 
             }
         };

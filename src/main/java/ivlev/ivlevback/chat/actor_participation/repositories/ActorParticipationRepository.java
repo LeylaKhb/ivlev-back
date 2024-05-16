@@ -13,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface ActorParticipationRepository  extends JpaRepository<ActorParticipation, UUID> {
     Optional<ActorParticipation> findByDialogAndUser(Dialog dialog, Person user);
+
 }

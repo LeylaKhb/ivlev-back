@@ -35,4 +35,11 @@ public class ActorParticipationService {
         actorParticipationRepository.save(actorParticipation);
     }
 
+    public void checkActorParticipationExists(Dialog dialog, Person person) {
+        try {
+            findByDialogAndUser(dialog, person);
+        } catch (UserPrincipalNotFoundException ex) {
+            createActorParticipation(dialog, person);
+        }
+    }
 }
