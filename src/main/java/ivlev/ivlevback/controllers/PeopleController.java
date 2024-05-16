@@ -1,6 +1,7 @@
 package ivlev.ivlevback.controllers;
 
 import freemarker.template.TemplateException;
+import ivlev.ivlevback.aspect.annotation.NewUserLogging;
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.AuthenticationDTO;
 import ivlev.ivlevback.dto.PersonDTO;
@@ -56,6 +57,7 @@ public class PeopleController {
         this.emailService = emailService;
     }
 
+    @NewUserLogging
     @PostMapping("/registration")
     public ResponseBody registration(@RequestBody PersonDTO personDTO,
                                      BindingResult bindingResult,
@@ -150,7 +152,8 @@ public class PeopleController {
 
         String token = jwtUtil.generateToken(authenticationDTO.getEmail().toLowerCase());
         createCookie(token, httpServletResponse);
-        if (authenticationDTO.getEmail().equals("axelsam@mail.ru")) {
+
+        if (personService.checkAdmin(authenticationDTO.getEmail())) {
             return new ResponseBody("jwt", token + "*true");
         }
         return new ResponseBody("jwt", token);

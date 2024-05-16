@@ -2,6 +2,7 @@ package ivlev.ivlevback.service;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import ivlev.ivlevback.aspect.annotation.EmailLogging;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -31,7 +32,7 @@ public class EmailServices {
         this.freeMarkerConfigurer = freeMarkerConfigurer;
     }
 
-
+    @EmailLogging
     public String sendEmail(String to) throws IOException, TemplateException {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");

@@ -42,4 +42,10 @@ public class PersonService {
             peopleRepository.save(personFromDb);
         }
     }
+
+    public boolean checkAdmin(String email) {
+        Person person = peopleRepository.findByEmail(email).get();
+
+        return person.getRole().equals(Role.ROLE_ADMIN);
+    }
 }
