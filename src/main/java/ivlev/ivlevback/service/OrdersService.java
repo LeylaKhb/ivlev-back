@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-
-
+import java.util.Optional;
 
 
 @Service
@@ -96,5 +95,12 @@ public class OrdersService {
         for (Box box : order.getBoxes()) {
             boxesRepository.deleteById(box.getId());
         }
+    }
+
+    public void changeStatusAfterPayment(String id) {
+        Orders order = ordersRepository.findById(Integer.valueOf(id)).get();
+        order.setStatus("Доставка на склад");
+        order.setChangeable(false);
+        ordersRepository.save(order);
     }
 }

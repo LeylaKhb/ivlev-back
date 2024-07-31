@@ -51,7 +51,7 @@ public class SuppliesService {
     public SupplyDTO findByDepartureDateAndSendCity(LocalDate departureDate, String title) {
         SupplyTitleType supplyTitleType = supplyTitleTypesRepository.findByTitle(title);
         Supply supply;
-        if (title.equals("Чапаевск(OZON)/Преображенка (OZON,ЯМ,WB)") || title.equals("Новосемейкино")) {
+        if (title.equals("Чапаевск(OZON)/Преображенка (OZON,ЯМ,WB)") || title.equals("Новосемейкино/Забор с ТК")) {
             supply = suppliesRepository.findByTitleType(supplyTitleType);
         } else {
             supply = suppliesRepository.findByDepartureDateAndTitleType(departureDate, supplyTitleType);

@@ -40,7 +40,6 @@ public class JWTFilter extends OncePerRequestFilter {
             } else {
                 try {
                     String username = jwtUtil.validateTokenAndRetrieveClaim(jwt);
-                    System.out.println(username);
                     UserDetails userDetails = personDetailsService.loadUserByUsername(username.toLowerCase());
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,

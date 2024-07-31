@@ -66,8 +66,6 @@ public class DialogController {
         List<MessageDto> messagesDto = messages.stream()
                 .map(message -> new MessageDto(message.getTextContext(), message.getActorParticipation().getUser().getName()))
                 .collect(Collectors.toList());
-        System.out.println(dialog.getId());
-        System.out.println(messages.size());
         return new DialogDTO(dialog.getId(), messagesDto);
     }
 

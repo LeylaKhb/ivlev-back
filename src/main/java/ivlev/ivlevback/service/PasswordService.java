@@ -29,7 +29,7 @@ public class PasswordService {
     }
 
     public void updatePassword(AuthenticationDTO authenticationDTO) {
-        Person person = peopleRepository.findByEmail(authenticationDTO.getEmail()).get();
+        Person person = peopleRepository.findByEmail(authenticationDTO.getEmail().toLowerCase()).get();
         person.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
         peopleRepository.save(person);
     }

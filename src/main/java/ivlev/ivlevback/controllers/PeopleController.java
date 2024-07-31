@@ -178,7 +178,6 @@ public class PeopleController {
                                      BindingResult bindingResult) throws TemplateException, IOException {
         personDTO.setEmail(personDTO.getEmail().toLowerCase());
         String email = personDTO.getEmail();
-        System.out.println(email);
 
         personValidator.validate(convertToPerson(personDTO), bindingResult);
 

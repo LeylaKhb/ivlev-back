@@ -44,7 +44,7 @@ public class PersonService {
     }
 
     public boolean checkAdmin(String email) {
-        Person person = peopleRepository.findByEmail(email).get();
+        Person person = peopleRepository.findByEmail(email.toLowerCase()).get();
 
         return person.getRole().equals(Role.ROLE_ADMIN);
     }

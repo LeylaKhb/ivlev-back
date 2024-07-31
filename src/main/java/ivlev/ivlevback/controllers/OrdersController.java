@@ -9,8 +9,6 @@ import ivlev.ivlevback.models.Orders;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.service.OrdersService;
 import ivlev.ivlevback.utils.LocalDateTypeAdapter;
-import org.hibernate.query.Order;
-import org.json.simple.parser.ParseException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +26,12 @@ public class OrdersController {
 
     public OrdersController(OrdersService ordersService) {
         this.ordersService = ordersService;
+    }
+
+    @GetMapping("/change_status_after_payment/{id}")
+    public ResponseBody changeStatusAfterPayment(@PathVariable String id) {
+        ordersService.changeStatusAfterPayment(id);
+        return new ResponseBody("ok", "");
     }
 
     @PostMapping("/new_order")
@@ -52,8 +56,6 @@ public class OrdersController {
         try {
             personDetails = (PersonDetails) authentication.getPrincipal();
         } catch (ClassCastException ex) {
-            System.out.println("principal " + authentication.getPrincipal());
-            System.out.println("credentioals " + authentication.getCredentials());
         }
         assert personDetails != null;
         return ordersService.getAllCurrentOrders(personDetails);

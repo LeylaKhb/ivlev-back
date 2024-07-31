@@ -86,6 +86,9 @@ public class RequestsController {
             result -= result * ((double) person.getDiscount() / 100);
         }
 
+        if (priceRequestDTO.getSendCity().equals("Преображенка") && priceRequestDTO.getStore().equals("ТК")) {
+            result = 600;
+        }
 //        if (result % 1 == 0) {
 //            price = String.valueOf(result);
 //        } else {

@@ -29,7 +29,6 @@ public class MessageService {
     }
 
     public Message create(String text, String dialogId, Person user) throws UserPrincipalNotFoundException {
-        System.out.println(dialogId);
         Dialog dialog = dialogService.findById(UUID.fromString(dialogId));
 
 
