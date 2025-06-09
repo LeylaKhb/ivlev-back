@@ -9,15 +9,20 @@ import ivlev.ivlevback.models.Orders;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.service.OrdersService;
 import ivlev.ivlevback.utils.LocalDateTypeAdapter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 public class OrdersController {
+    @Value("${secret_paykeeper_word}")
+    private String secretPaykeeperWord;
     private final OrdersService ordersService;
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
@@ -28,10 +33,12 @@ public class OrdersController {
         this.ordersService = ordersService;
     }
 
-    @GetMapping("/change_status_after_payment/{id}")
-    public ResponseBody changeStatusAfterPayment(@PathVariable String id) {
-        ordersService.changeStatusAfterPayment(id);
-        return new ResponseBody("ok", "");
+    @PostMapping("/change_status_after_payment")
+    public String changeStatusAfterPayment(@RequestParam String id, @RequestParam String orderid,
+                                                 @RequestParam String sum) {
+        String answer = "OK " + getMd5Hash(id + secretPaykeeperWord);
+        ordersService.changeStatusAfterPayment(orderid, sum);
+        return answer;
     }
 
     @PostMapping("/new_order")
@@ -55,7 +62,7 @@ public class OrdersController {
         PersonDetails personDetails = null;
         try {
             personDetails = (PersonDetails) authentication.getPrincipal();
-        } catch (ClassCastException ex) {
+        } catch (ClassCastException ignored) {
         }
         assert personDetails != null;
         return ordersService.getAllCurrentOrders(personDetails);
@@ -74,5 +81,24 @@ public class OrdersController {
     public ResponseBody deleteOrder(@RequestBody Orders order) {
         ordersService.delete(order);
         return new ResponseBody("ok", "");
+    }
+
+    public String getMd5Hash(String source) {
+        try {
+            var md = MessageDigest.getInstance("MD5");
+            md.update(source.getBytes());
+            byte[] digest = md.digest();
+            return bytesToHex(digest);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        var builder = new StringBuilder();
+        for (var b : bytes) {
+            builder.append(String.format("%02x", b & 0xff));
+        }
+        return builder.toString();
     }
 }

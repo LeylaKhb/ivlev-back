@@ -1,9 +1,7 @@
 package ivlev.ivlevback.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,6 +30,11 @@ public class Orders {
     private String status;
     @Column(name = "will_taken")
     private boolean willTaken;
+    @Column(name = "payment_site")
+    private boolean paymentSite;
+
+    @Column(name = "payment_status")
+    private boolean paymentStatus;
     private String comment;
     @Column(name = "number_ozon")
     private String numberOzon;
@@ -46,7 +49,48 @@ public class Orders {
     @Column(name = "supply_title")
     private String supplyTitle;
 
+    @Column(name = "acceptance_date")
+    private LocalDate acceptanceDate;
+
+    @Column(name = "status_1c")
+    private boolean status1c;
+
+    @Column(name = "inn")
+    private String inn;
+
     public Orders() {
+    }
+
+    public String getInn() {
+        return inn;
+    }
+
+    public void setInn(String inn) {
+        this.inn = inn;
+    }
+
+    public LocalDate getAcceptanceDate() {
+        return acceptanceDate;
+    }
+
+    public void setAcceptanceDate(LocalDate acceptanceDate) {
+        this.acceptanceDate = acceptanceDate;
+    }
+
+    public boolean isPaymentSite() {
+        return paymentSite;
+    }
+
+    public void setPaymentSite(boolean paymentSite) {
+        this.paymentSite = paymentSite;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getSupplyTitle() {
@@ -203,5 +247,13 @@ public class Orders {
 
     public String getNumberOzon() {
         return numberOzon;
+    }
+
+    public boolean isStatus1c() {
+        return status1c;
+    }
+
+    public void setStatus1c(boolean status1c) {
+        this.status1c = status1c;
     }
 }

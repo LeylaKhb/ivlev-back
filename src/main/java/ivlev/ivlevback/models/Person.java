@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ivlev.ivlevback.chat.actor_participation.models.ActorParticipation;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,11 +35,22 @@ public class Person {
 
     private Integer discount;
 
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    private List<Company> companies;
+
     public Person() {
     }
 
     public Integer getDiscount() {
         return discount;
+    }
+
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
     }
 
     public void setDiscount(Integer discount) {

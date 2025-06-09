@@ -48,4 +48,8 @@ public class PersonService {
 
         return person.getRole().equals(Role.ROLE_ADMIN);
     }
+
+    public void save(Person person) {
+        peopleRepository.save(person);
+    }
 }

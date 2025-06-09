@@ -2,9 +2,9 @@ package ivlev.ivlevback.controllers;
 
 import ivlev.ivlevback.config.ResponseBody;
 import ivlev.ivlevback.dto.PriceRequestDTO;
+import ivlev.ivlevback.models.AnswerRequest;
 import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.models.PriceRequest;
-import ivlev.ivlevback.models.AnswerRequest;
 import ivlev.ivlevback.security.PersonDetails;
 import ivlev.ivlevback.service.RequestsService;
 import ivlev.ivlevback.utils.TelegramUtil;
@@ -43,14 +43,23 @@ public class RequestsController {
 
         double volume = priceRequestDTO.getVolume();
         double result = 0;
-        
+
         if (priceRequestDTO.getDepartureCity().equals("Самара")) result += 100;
         else result += 200;
+
+        if (priceRequestDTO.getSendCity().equals("Новосемейкино")) {
+            if (priceRequestDTO.getDepartureCity().equals("Тольятти")) {
+                if (priceRequestDTO.isPallet()) {
+                    result = 100;
+                } else {
+                    result = 200;
+                }
+            } else {
+                result = 0;
+            }
+        }
         if (priceRequestDTO.isWillTaken()) {
-            if (priceRequestDTO.getDepartureCity().equals("Самара"))
-                result += 600;
-            else
-                result += 1000;
+            result += volume > 3 ? 1800 : 900;
         }
 
         String price;
@@ -60,14 +69,13 @@ public class RequestsController {
             }
         }
 
-        if (priceRequestDTO.getSendCity().equals("Преображенка") || priceRequestDTO.getSendCity().equals("Чапаевск") ||
-                priceRequestDTO.getSendCity().equals("Новосемейкино")) {
-            if (priceRequestDTO.isPallet()) result += priceRequest.getSum();
+        if (priceRequestDTO.getSendCity().equals("Преображенка") || priceRequestDTO.getSendCity().equals("Чапаевск")) {
+            if (priceRequestDTO.isPallet()) result += (priceRequestDTO.getAmount() * priceRequest.getSum());
             else {
                 if (priceRequestDTO.getDepartureCity().equals("Самара")) {
                     result += priceRequestDTO.getAmount() * priceRequest.getMinSum();
                 } else {
-                    result += priceRequestDTO.getAmount() * (priceRequest.getMinSum() + 100);
+                    result += priceRequestDTO.getAmount() * (priceRequest.getMinSum()) + 100;
                 }
             }
             result -= 100;
@@ -87,12 +95,12 @@ public class RequestsController {
         }
 
         if (priceRequestDTO.getSendCity().equals("Преображенка") && priceRequestDTO.getStore().equals("ТК")) {
-            result = 600;
+            result = volume > 3 ? 1800 : 900;
         }
 //        if (result % 1 == 0) {
 //            price = String.valueOf(result);
 //        } else {
-            price = String.format("%.2f", result);
+        price = String.format("%.2f", result);
 //        }
 
         return new ResponseBody("answer", price + "/" + volume);

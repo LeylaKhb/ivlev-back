@@ -12,6 +12,7 @@ public class AdminRequest {
     private LocalDate endDepartureDate;
     private LocalDate startOrderDate;
     private LocalDate endOrderDate;
+    private LocalDate acceptanceDate;
     private String status;
     private String sortBy;
 
@@ -104,5 +105,31 @@ public class AdminRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDate getAcceptanceDate() {
+        return acceptanceDate;
+    }
+
+    public void setAcceptanceDate(LocalDate acceptanceDate) {
+        this.acceptanceDate = acceptanceDate;
+    }
+
+    @Override
+    public String toString() {
+        return "AdminRequest{" +
+                "departureCity='" + departureCity + '\'' +
+                ", store='" + store + '\'' +
+                ", sendCity='" + sendCity + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", entity='" + entity + '\'' +
+                ", startDepartureDate=" + startDepartureDate +
+                ", endDepartureDate=" + endDepartureDate +
+                ", startOrderDate=" + startOrderDate +
+                ", endOrderDate=" + endOrderDate +
+                ", acceptanceDate=" + acceptanceDate +
+                ", status='" + status + '\'' +
+                ", sortBy='" + sortBy + '\'' +
+                '}';
     }
 }

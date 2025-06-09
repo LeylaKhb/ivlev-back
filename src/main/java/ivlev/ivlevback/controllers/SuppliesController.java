@@ -31,7 +31,7 @@ public class SuppliesController {
     }
 
     @PostMapping("/get_supply")
-    public SupplyDTO getSupply(@RequestBody String jsonString) throws ParseException, java.text.ParseException {
+    public SupplyDTO getSupply(@RequestBody String jsonString) throws ParseException {
         Object obj = new JSONParser().parse(jsonString);
         JSONObject jo = (JSONObject) obj;
         String strDepartureDate = (String) jo.get("departureDate");
