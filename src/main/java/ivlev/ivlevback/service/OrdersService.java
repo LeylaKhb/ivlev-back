@@ -136,6 +136,14 @@ public class OrdersService {
         order.setChangeable(true);
         order.setPerson(personDetails.getPerson());
 
+        String entity = order.getEntity();
+        int startInn = entity.indexOf("(");
+        int endInn = entity.indexOf(")");
+        String companyName = entity.substring(0, startInn).trim(); // "ООО Ромашка"
+        String inn = entity.substring(startInn + 1, endInn).trim(); // "1234567890"
+
+        order.setEntity(companyName);
+        order.setInn(inn);
         return ordersRepository.save(order);
     }
 

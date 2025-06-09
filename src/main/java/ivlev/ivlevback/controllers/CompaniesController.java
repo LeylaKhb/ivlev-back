@@ -34,4 +34,11 @@ public class CompaniesController {
 
         companiesService.addNewOrder(companyDTO, personDetails.getPerson());
     }
+
+    @PostMapping("/delete/{inn}")
+    public void deleteCompany(@PathVariable("inn") String inn, Authentication authentication) {
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        companiesService.deleteOrder(inn, personDetails.getPerson());
+    }
 }
