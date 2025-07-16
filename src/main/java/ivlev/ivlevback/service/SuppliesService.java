@@ -9,11 +9,12 @@ import ivlev.ivlevback.repositories.SuppliesRepository;
 import ivlev.ivlevback.repositories.SupplyTitleTypesRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,21 +84,20 @@ public class SuppliesService {
         ZoneId zone = ZoneId.of("Europe/Moscow");
         LocalDate today = LocalDate.now(zone);
 
-        LocalDate startOfWeek = today.with(DayOfWeek.TUESDAY);
+        LocalDate nextTuesday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.TUESDAY));
+        LocalDate nextMonday = nextTuesday.plusDays(6);
 
-        LocalDate endOfWeek = startOfWeek.plusDays(6); 
+        Date fromDate = Date.valueOf(nextTuesday);
+        Date toDate = Date.valueOf(nextMonday);
 
-        Date fromDate = Date.valueOf(startOfWeek);
-        Date toDate = Date.valueOf(endOfWeek);
-
-        List<Supply> nextWeekSupplies = suppliesRepository.findByDepartureDateBetween(fromDate, toDate);
+        List<Supply> nextWeekSupplies = suppliesRepository
+                .findByDepartureDateBetweenOrderByDepartureDateAsc(fromDate, toDate);
 
         List<Supply> newSupplies = nextWeekSupplies.stream().map(old -> {
             Supply copy = new Supply();
 
             copy.setDepartureDate(addDays(old.getDepartureDate(), 7));
             copy.setAcceptanceDate(addDays(old.getAcceptanceDate(), 7));
-
             copy.setTitleType(old.getTitleType());
             copy.setVisible(true);
 
@@ -106,6 +106,7 @@ public class SuppliesService {
 
         suppliesRepository.saveAll(newSupplies);
     }
+
 
     private Date addDays(Date date, int days) {
         LocalDate localDate = date.toLocalDate().plusDays(days);

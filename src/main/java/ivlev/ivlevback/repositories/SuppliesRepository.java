@@ -19,5 +19,5 @@ public interface SuppliesRepository extends JpaRepository<Supply, Long> {
 
     List<Supply> findByAcceptanceDateLessThanEqualAndVisibleTrue(Date date);
 
-    List<Supply> findByDepartureDateBetween(Date fromDate, Date toDate);
+    List<Supply> findByDepartureDateBetweenOrderByDepartureDateAsc(Date fromDate, Date toDate);
 }
