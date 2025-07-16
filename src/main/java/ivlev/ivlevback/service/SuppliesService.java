@@ -9,9 +9,13 @@ import ivlev.ivlevback.repositories.SuppliesRepository;
 import ivlev.ivlevback.repositories.SupplyTitleTypesRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SuppliesService {
@@ -24,7 +28,7 @@ public class SuppliesService {
     }
 
     public List<SupplyDTO> getAll() {
-        List<Supply> supplyList = suppliesRepository.findAllAndOrder();
+        List<Supply> supplyList = suppliesRepository.findAllByOrderByIdAsc();
         List<SupplyDTO> answerList = new ArrayList<>();
         for (Supply supply : supplyList) {
             if (supply.isVisible()) {
@@ -61,5 +65,51 @@ public class SuppliesService {
         return getSupplyDTO(supplyTitleType, supply);
     }
 
+
+    public void hideSuppliesWithOldAcceptanceDate() {
+        LocalDate today = LocalDate.now(ZoneId.of("Europe/Moscow"));
+        Date todaySqlDate = Date.valueOf(today);
+
+        List<Supply> suppliesToHide = suppliesRepository.findByAcceptanceDateLessThanEqualAndVisibleTrue(todaySqlDate);
+
+        for (Supply supply : suppliesToHide) {
+            supply.setVisible(false);
+        }
+
+        suppliesRepository.saveAll(suppliesToHide);
+    }
+
+    public void copyNextWeekSuppliesToFollowingWeek() {
+        ZoneId zone = ZoneId.of("Europe/Moscow");
+        LocalDate today = LocalDate.now(zone);
+
+        LocalDate startOfWeek = today.with(DayOfWeek.TUESDAY);
+
+        LocalDate endOfWeek = startOfWeek.plusDays(6); 
+
+        Date fromDate = Date.valueOf(startOfWeek);
+        Date toDate = Date.valueOf(endOfWeek);
+
+        List<Supply> nextWeekSupplies = suppliesRepository.findByDepartureDateBetween(fromDate, toDate);
+
+        List<Supply> newSupplies = nextWeekSupplies.stream().map(old -> {
+            Supply copy = new Supply();
+
+            copy.setDepartureDate(addDays(old.getDepartureDate(), 7));
+            copy.setAcceptanceDate(addDays(old.getAcceptanceDate(), 7));
+
+            copy.setTitleType(old.getTitleType());
+            copy.setVisible(true);
+
+            return copy;
+        }).collect(Collectors.toList());
+
+        suppliesRepository.saveAll(newSupplies);
+    }
+
+    private Date addDays(Date date, int days) {
+        LocalDate localDate = date.toLocalDate().plusDays(days);
+        return Date.valueOf(localDate);
+    }
 
 }
