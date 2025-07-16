@@ -125,6 +125,17 @@ public class OrdersService {
         modelMapper.map(order, existingOrder);
         existingOrder.setPerson(personDetails.getPerson());
 
+        if (existingOrder.getEntity() != null) {
+            parseAndSetCompanyInfo(existingOrder);
+        } else {
+            existingOrder.setEntity(order.getEntity());
+        }
+
+        if (order.getSendCity().equals("Преображенка") || order.getSendCity().equals("Чапаевск")
+                || order.getSendCity().equals("Новосемейкино")) {
+            order.setAcceptanceDate(order.getDepartureDate());
+        }
+
         boxesRepository.deleteAllByOrderId(existingOrder.getId());
         return ordersRepository.save(existingOrder);
     }
@@ -136,14 +147,14 @@ public class OrdersService {
         order.setChangeable(true);
         order.setPerson(personDetails.getPerson());
 
-        String entity = order.getEntity();
-        int startInn = entity.indexOf("(");
-        int endInn = entity.indexOf(")");
-        String companyName = entity.substring(0, startInn).trim(); // "ООО Ромашка"
-        String inn = entity.substring(startInn + 1, endInn).trim(); // "1234567890"
+        if (order.getSendCity().equals("Преображенка") || order.getSendCity().equals("Чапаевск")
+                || order.getSendCity().equals("Новосемейкино")) {
+            order.setAcceptanceDate(order.getDepartureDate());
+        }
 
-        order.setEntity(companyName);
-        order.setInn(inn);
+        parseAndSetCompanyInfo(order);
+
+        System.out.println(order.getEntity());
         return ordersRepository.save(order);
     }
 
@@ -156,6 +167,21 @@ public class OrdersService {
         List<Orders> notUploadedOrders = ordersRepository.findAllByStatus1cFalse();
         for (Orders orders : notUploadedOrders) {
             createOrderIn1c(orders, false);
+        }
+    }
+
+    public void parseAndSetCompanyInfo(Orders order) {
+        String entity = order.getEntity();
+        if (entity.contains("(")) {
+            int startInn = entity.indexOf("(");
+            int endInn = entity.indexOf(")");
+            String companyName = entity.substring(0, startInn).trim();
+            String inn = entity.substring(startInn + 1, endInn).trim();
+
+            order.setEntity(companyName);
+            order.setInn(inn);
+        } else {
+            order.setEntity(entity);
         }
     }
 

@@ -32,7 +32,7 @@ public class CompaniesController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        companiesService.addNewOrder(companyDTO, personDetails.getPerson());
+        companiesService.addNewCompany(companyDTO, personDetails.getPerson());
     }
 
     @PostMapping("/delete/{inn}")

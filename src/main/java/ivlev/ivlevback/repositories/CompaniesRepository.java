@@ -16,5 +16,7 @@ import java.util.Optional;
 public interface CompaniesRepository extends JpaRepository<Company, Long> {
     List<Company> getAllByPerson(Person person);
 
-    Optional<Company> findByInn(String inn);
+    Optional<Company> findByInnAndAndPerson(String inn, Person person);
+
+    boolean existsByInnAndPerson(String inn, Person person);
 }

@@ -41,7 +41,7 @@ public class RequestsController {
                 priceRequestDTO.getSendCity());
 
 
-        double volume = priceRequestDTO.getVolume();
+        double volume = Math.round(priceRequestDTO.getVolume() * 100) / 100.0;
         double result = 0;
 
         if (priceRequestDTO.getDepartureCity().equals("Самара")) result += 100;
@@ -62,7 +62,6 @@ public class RequestsController {
             result += volume > 3 ? 1800 : 900;
         }
 
-        String price;
         if (priceRequestDTO.isPallet()) {
             if (volume < 1.5) {
                 volume = 1.5;
@@ -97,12 +96,9 @@ public class RequestsController {
         if (priceRequestDTO.getSendCity().equals("Преображенка") && priceRequestDTO.getStore().equals("ТК")) {
             result = volume > 3 ? 1800 : 900;
         }
-//        if (result % 1 == 0) {
-//            price = String.valueOf(result);
-//        } else {
-        price = String.format("%.2f", result);
-//        }
+        String price = String.format("%.2f", result);
+        String formattedVolume = String.format("%.2f", volume);
 
-        return new ResponseBody("answer", price + "/" + volume);
+        return new ResponseBody("answer", price + "/" + formattedVolume);
     }
 }

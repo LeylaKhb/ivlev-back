@@ -25,15 +25,17 @@ public class CompaniesService {
                 .toList();
     }
 
-    public void addNewOrder(CompanyDTO companyDTO, Person person) {
-        companiesRepository.save(new Company(companyDTO.getCompanyName(), companyDTO.getInn(), person));
+    public void addNewCompany(CompanyDTO companyDTO, Person person) {
+        if (!companiesRepository.existsByInnAndPerson(companyDTO.getInn(), person)) {
+            companiesRepository.save(new Company(companyDTO.getCompanyName(), companyDTO.getInn(), person));
+        }
     }
 
     @Transactional
     public void deleteOrder(String inn, Person person) {
-        Optional<Company> companyOpt = companiesRepository.findByInn(inn);
+        Optional<Company> companyOpt = companiesRepository.findByInnAndAndPerson(inn, person);
 
-        if (companyOpt.isPresent() && person.getCompanies().stream().anyMatch(comp -> comp.getInn().equals(inn))) {
+        if (companyOpt.isPresent()) {
             companiesRepository.delete(companyOpt.get());
             return;
         }
