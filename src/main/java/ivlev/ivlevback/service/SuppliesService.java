@@ -50,14 +50,15 @@ public class SuppliesService {
                 .map(city -> new DepartureCityDTO(city.getCity()))
                 .toList();
         return new SupplyDTO(supply.getDepartureDate(), supply.getAcceptanceDate(), title,
-                warehouses, cities);
+                warehouses, cities, supplyTitleType.isOzon());
     }
 
     public SupplyDTO findByDepartureDateAndSendCity(LocalDate departureDate, String title) {
         SupplyTitleType supplyTitleType = supplyTitleTypesRepository.findByTitle(title);
         Supply supply;
         if (title.equals("Чапаевск(OZON)/Преображенка (OZON,ЯМ,WB)") || title.equals("Новосемейкино")
-                || title.equals("Забор с ТК") || title.equals("Новосемейкино/Забор с ТК")) {
+                || title.equals("Забор с ТК") || title.equals("Новосемейкино/Забор с ТК")
+                || title.equals("Чапаевск/Преображенка (ЯМ,OZON)") || title.equals("Преображенка WB")) {
             supply = suppliesRepository.findByTitleType(supplyTitleType);
         } else {
             supply = suppliesRepository.findByDepartureDateAndTitleType(departureDate, supplyTitleType);
@@ -84,11 +85,11 @@ public class SuppliesService {
         ZoneId zone = ZoneId.of("Europe/Moscow");
         LocalDate today = LocalDate.now(zone);
 
-        LocalDate nextTuesday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.TUESDAY));
-        LocalDate nextMonday = nextTuesday.plusDays(6);
+        LocalDate startOfNextWeek = today.with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
+        LocalDate endOfNextWeek = startOfNextWeek.plusDays(6); // Понедельник следующей недели
 
-        Date fromDate = Date.valueOf(nextTuesday);
-        Date toDate = Date.valueOf(nextMonday);
+        Date fromDate = Date.valueOf(startOfNextWeek);
+        Date toDate = Date.valueOf(endOfNextWeek);
 
         List<Supply> nextWeekSupplies = suppliesRepository
                 .findByDepartureDateBetweenOrderByDepartureDateAsc(fromDate, toDate);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ivlev.ivlevback.chat.actor_participation.models.ActorParticipation;
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,29 @@ public class Person {
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private List<Company> companies;
 
+    @Column(name = "agree_to_terms")
+    private boolean agreeToTerms;
+
+    @Column(name = "agree_to_terms_date")
+    private Date agreeToTermsDate;
+
     public Person() {
+    }
+
+    public Date getAgreeToTermsDate() {
+        return agreeToTermsDate;
+    }
+
+    public void setAgreeToTermsDate(Date agreeToTermsDate) {
+        this.agreeToTermsDate = agreeToTermsDate;
+    }
+
+    public boolean isAgreeToTerms() {
+        return agreeToTerms;
+    }
+
+    public void setAgreeToTerms(boolean agreeToTerms) {
+        this.agreeToTerms = agreeToTerms;
     }
 
     public Integer getDiscount() {

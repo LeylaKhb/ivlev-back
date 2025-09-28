@@ -19,6 +19,17 @@ public class SupplyTitleType {
     @OneToMany(mappedBy = "titleType")
     private List<DepartureCity> departureCities;
 
+    @Column(name= "is_ozon")
+    private boolean isOzon;
+
+    public boolean isOzon() {
+        return isOzon;
+    }
+
+    public void setOzon(boolean ozon) {
+        isOzon = ozon;
+    }
+
     public List<DestinationWarehouse> getWarehouses() {
         return warehouses;
     }

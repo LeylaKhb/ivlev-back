@@ -33,6 +33,7 @@ public class RegistrationService {
             personDetailsService.loadUserByUsername(p.getEmail());
         } catch (UsernameNotFoundException ex) {
         }
+        p.setAgreeToTerms(true);
         p.setPassword(passwordEncoder.encode(p.getPassword()));
         p.setRole(Role.ROLE_USER);
         p.setDiscount(0);

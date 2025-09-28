@@ -7,6 +7,7 @@ import ivlev.ivlevback.dto.ChangeOrderAdmin;
 import ivlev.ivlevback.models.AdminRequest;
 import ivlev.ivlevback.models.Box;
 import ivlev.ivlevback.models.Orders;
+import ivlev.ivlevback.models.Person;
 import ivlev.ivlevback.repositories.BoxesRepository;
 import ivlev.ivlevback.repositories.OrdersRepository;
 import ivlev.ivlevback.security.PersonDetails;
@@ -24,6 +25,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
@@ -37,21 +39,22 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final BoxesRepository boxesRepository;
     private final ModelMapper modelMapper;
-    private final SuppliesService suppliesService;
+    private final PersonService personService;
+
     @Value("${auth_1c}")
     private String authToken1c;
 
 
     public OrdersService(OrdersRepository ordersRepository, BoxesRepository boxesRepository, ModelMapper modelMapper,
-                         SuppliesService suppliesService) {
+                         PersonService personService) {
         this.ordersRepository = ordersRepository;
         this.boxesRepository = boxesRepository;
         this.modelMapper = modelMapper;
-        this.suppliesService = suppliesService;
+        this.personService = personService;
     }
 
     @Transactional
-    public void save(PersonDetails personDetails, Orders order, List<Box> boxList) {
+    public Orders save(PersonDetails personDetails, Orders order, List<Box> boxList) {
         if (order.getId() != 0) {
             order = updateExistingOrder(personDetails, order);
         } else {
@@ -59,6 +62,7 @@ public class OrdersService {
         }
 
         saveBoxesBatch(order, boxList);
+        return order;
     }
 
     public List<Orders> getAll(PersonDetails personDetails) {
@@ -141,11 +145,12 @@ public class OrdersService {
     }
 
     private Orders createNewOrder(PersonDetails personDetails, Orders order) {
+        Person person = personDetails.getPerson();
         order.setOrderDate(LocalDate.now());
         order.setStatus(order.isPaymentSite() ? "Ожидает оплаты" : "Ожидает на ФФ");
         order.setPaymentStatus(false);
         order.setChangeable(true);
-        order.setPerson(personDetails.getPerson());
+        order.setPerson(person);
 
         if (order.getSendCity().equals("Преображенка") || order.getSendCity().equals("Чапаевск")
                 || order.getSendCity().equals("Новосемейкино")) {
@@ -154,7 +159,11 @@ public class OrdersService {
 
         parseAndSetCompanyInfo(order);
 
-        System.out.println(order.getEntity());
+        if (!person.isAgreeToTerms()) {
+            person.setAgreeToTerms(true);
+            person.setAgreeToTermsDate(new java.sql.Date(System.currentTimeMillis()));
+            personService.save(person);
+        }
         return ordersRepository.save(order);
     }
 

@@ -15,6 +15,7 @@ public class AutomaticFillingSuppliesScheduler {
 
     @Scheduled(cron = "0 0 0 * * TUE", zone = "Europe/Moscow")
     public void copySuppliesForNextWeek() {
+        System.out.println("Обновление расписания");
         suppliesService.copyNextWeekSuppliesToFollowingWeek();
     }
 }

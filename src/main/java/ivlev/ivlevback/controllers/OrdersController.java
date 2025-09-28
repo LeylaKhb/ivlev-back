@@ -42,7 +42,7 @@ public class OrdersController {
     }
 
     @PostMapping("/new_order")
-    public ResponseBody createOrder(@RequestBody String jsonString) {
+    public Orders createOrder(@RequestBody String jsonString) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -52,8 +52,7 @@ public class OrdersController {
         InboundData x = gson.fromJson(jsonString, InboundData.class);
         order = x.getOrder();
         boxes = x.getBoxes();
-        ordersService.save(personDetails, order, boxes);
-        return new ResponseBody("ok", "");
+        return ordersService.save(personDetails, order, boxes);
     }
 
     @GetMapping("/current_orders")
@@ -66,7 +65,6 @@ public class OrdersController {
         }
         assert personDetails != null;
         return ordersService.getAllCurrentOrders(personDetails);
-
     }
 
     @GetMapping("/orders_history")

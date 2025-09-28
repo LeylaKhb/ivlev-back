@@ -168,8 +168,12 @@ public class PeopleController {
     @GetMapping("/personal_account")
     public Person personalAccount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-
+        PersonDetails personDetails = null;
+        try {
+            personDetails = (PersonDetails) authentication.getPrincipal();
+        } catch (ClassCastException ignored) {
+        }
+        assert personDetails != null;
         return personDetails.getPerson();
     }
 

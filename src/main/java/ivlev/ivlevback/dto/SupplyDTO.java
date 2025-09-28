@@ -10,13 +10,23 @@ public class SupplyDTO {
     private String title;
     private List<DestinationWarehouseDTO> warehouses;
     private List<DepartureCityDTO> departureCities;
+    private boolean isOzon;
 
-    public SupplyDTO(Date departureDate, Date acceptanceDate, String title, List<DestinationWarehouseDTO> warehouses, List<DepartureCityDTO> departureCities) {
+    public SupplyDTO(Date departureDate, Date acceptanceDate, String title, List<DestinationWarehouseDTO> warehouses, List<DepartureCityDTO> departureCities, boolean isOzon) {
         this.departureDate = departureDate;
         this.acceptanceDate = acceptanceDate;
         this.title = title;
         this.warehouses = warehouses;
         this.departureCities = departureCities;
+        this.isOzon = isOzon;
+    }
+
+    public boolean isOzon() {
+        return isOzon;
+    }
+
+    public void setOzon(boolean ozon) {
+        isOzon = ozon;
     }
 
     public Date getDepartureDate() {
